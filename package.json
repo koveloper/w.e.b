@@ -1,0 +1,31 @@
+{
+  "name": "w.e.b",
+  "version": "1.0.0",
+  "description": "Web Embedded Bootloader (W.E.B). Frontend part of universal ETHERNET bootloader for embedded applications",
+  "main": "./public/index.html",
+  "scripts": {
+    "test": "npm run eslint",
+    "build-dev": "webpack --mode development",
+    "build-prod": "webpack --mode production",
+    "start": "webpack-dev-server --open --env debug"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:koveloper/w.e.b.git"
+  },
+  "keywords": [
+    "js",
+    "html",
+    "css"
+  ],
+  "author": "koveloper",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "7.21.0",
+    "uglifyjs-webpack-plugin": "2.2.0",
+    "webpack": "4.44.2",
+    "webpack-cli": "3.3.12",
+    "webpack-dev-server": "3.11.0",
+    "webpack-obfuscator": "3.3.0"
+  }
+}

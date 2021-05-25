@@ -1,0 +1,20 @@
+{
+	"ignores": [
+		".dist", 
+		".vscode", 
+		"node_modules", 
+		"public/css", 
+		"release", 
+		"src", 
+		"*body.less", 
+		"*footer.less", 
+		"*header.less",
+		"*pressure.less",
+		"*control.less",
+		"*templates.less",
+		"*vars.less",
+		"*wifi.less",
+		"*.css",
+		"*.js"
+	]
+}
