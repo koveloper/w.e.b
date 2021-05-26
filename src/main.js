@@ -1,4 +1,5 @@
 import { Api } from './api';
+import { AppConstants } from './constants';
 import { ViewElements } from './view-elements';
 
 const LogicElements = {
@@ -9,6 +10,23 @@ const LogicElements = {
 };
 
 const api = new Api();
+let errTimerId = null;
+
+const showError = (err) => {
+  ViewElements.errorContent.textContent = err;
+  ViewElements.error.style.maxHeight = '100px';
+  ViewElements.error.style.opacity = 1;
+  if(errTimerId) {
+    clearTimeout(errTimerId);
+    errTimerId = null;
+  }
+  errTimerId = setTimeout(() => {
+    clearTimeout(errTimerId);
+    ViewElements.error.style.maxHeight = 0;
+    ViewElements.error.style.opacity = 0;
+    errTimerId = null;
+  }, AppConstants.ui.ERROR_SHOW_INTERVAL);    
+};
 
 const initView = () => {
   ViewElements.appWrapper.classList.remove('vertical-hided');
@@ -21,7 +39,7 @@ const initView = () => {
 
       })
       .catch((err) => {
-        alert(err);
+        showError(err);
       });
   });
   ViewElements.chooseFirmwareButton.addEventListener('click', () => {

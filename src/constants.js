@@ -14,5 +14,8 @@ export const AppConstants = {
     },
     WS_ENDPOINT: 'bootloader',
     HTTP_ENDPOINT: `http://${location.host}/bootloader`
+  },
+  ui: {
+    ERROR_SHOW_INTERVAL: 5000
   }
 };
