@@ -7,13 +7,10 @@
 		"release", 
 		"src", 
 		"*body.less", 
-		"*footer.less", 
 		"*header.less",
-		"*pressure.less",
-		"*control.less",
-		"*templates.less",
-		"*vars.less",
-		"*wifi.less",
+		"*main.less",
+		"*footer.less", 
+		"*utils.less", 
 		"*.css",
 		"*.js"
 	]

@@ -1,0 +1,55 @@
+.centered-flex() {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hided() {
+    padding: 0!important;
+    margin: 0!important;
+    overflow: hidden!important;
+}
+
+.horizontal-hided {
+    .hided();
+    max-width: 0!important;
+}
+
+.vertical-hided {
+    .hided();
+    max-height: 0!important;
+}
+
+.rotate-animation-infinite(@time: 2s, @delay: 0s) {
+    animation: rotation @time infinite @delay linear;
+}
+
+.rotate-animation-single(@time: 2s, @delay: 0s) {
+    animation: rotation @time ease-in-out @delay;
+    animation-fill-mode: forwards;
+}
+
+.appear-animation-single(@time: 2s, @delay: 0s) {
+    animation: appear  @time ease-in-out @delay;
+    animation-fill-mode: forwards;
+}
+
+.appear-from-right-animation-single(@time: 2s, @delay: 0s) {
+    animation: appear-from-right  @time ease-in-out @delay;
+    animation-fill-mode: forwards;
+}
+
+@keyframes rotation {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(359deg);}
+}
+
+@keyframes appear {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes appear-from-right {
+    from {opacity: 0; left: 100%;}
+    to {opacity: 1; left: 0;}
+}

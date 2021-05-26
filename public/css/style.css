@@ -1,0 +1,453 @@
+.horizontal-hided {
+  padding: 0!important;
+  margin: 0!important;
+  overflow: hidden!important;
+  max-width: 0!important;
+}
+.vertical-hided {
+  padding: 0!important;
+  margin: 0!important;
+  overflow: hidden!important;
+  max-height: 0!important;
+}
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes appear-from-right {
+  from {
+    opacity: 0;
+    left: 100%;
+  }
+  to {
+    opacity: 1;
+    left: 0;
+  }
+}
+html {
+  max-height: -webkit-fill-available;
+  height: -webkit-fill-available;
+}
+body {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  display: flex;
+  flex-direction: column;
+  max-height: -webkit-fill-available;
+  height: -webkit-fill-available;
+  padding: 0 20px;
+}
+.app-wrapper {
+  max-width: 800px;
+  width: 100%;
+  height: 100%;
+  max-height: 97vh;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  box-shadow: 0px 0px 8px 0px rgba(50, 50, 50, 0.75);
+  flex-grow: 1;
+  opacity: 1;
+  background: #eee;
+  transition: 0.8s;
+  overflow: hidden;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 92px;
+  position: relative;
+  transition: 0.3s;
+  left: 100%;
+  margin: 0 20px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #ccc;
+  animation: appear-from-right 0.8s ease-in-out 0.8s;
+  animation-fill-mode: forwards;
+}
+.header-img {
+  max-width: 48px;
+  max-height: 48px;
+  animation: rotation 0.8s ease-in-out 1s;
+  animation-fill-mode: forwards;
+  fill: lightblue;
+  margin: 0 8px;
+}
+.header-title {
+  text-shadow: 0px 0px 9px #969696;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.header-title > span {
+  font-size: 12px;
+  font-weight: 100;
+  color: rgba(0, 0, 0, 0.5);
+}
+.header-web-socket-inidicator {
+  width: 64px;
+  height: 64px;
+  position: fixed;
+  right: 20px;
+  top: 15px;
+  opacity: 0;
+  padding: 8px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  box-shadow: 0px 0px 9px #969696;
+  transition: 0.3s;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  flex-grow: 1;
+  padding: 40px;
+  opacity: 0;
+  animation: appear 1s ease-in-out 1s;
+  animation-fill-mode: forwards;
+}
+.main-exit-boot-checkbox {
+  display: none;
+}
+.main-exit-boot-checkbox + label {
+  position: relative;
+  padding: 4px 8px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  min-width: 240px;
+  border: none;
+  outline: none;
+  margin: auto 0 0 0;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 9px #969696;
+  transition: 0.3s;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.main-exit-boot-checkbox + label:disabled {
+  background: #bbb!important;
+  cursor: not-allowed !important;
+}
+.main-exit-boot-checkbox + label:disabled > svg {
+  opacity: 0.2;
+}
+.main-exit-boot-checkbox + label > svg {
+  min-width: 26px;
+  max-width: 26px;
+  min-height: 26px;
+  max-height: 26px;
+  margin: 0 8px 0 0;
+}
+.main-exit-boot-checkbox + label > span {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-transform: none;
+  font-size: 14px;
+  font-weight: 800;
+  opacity: 1!important;
+  z-index: 9;
+}
+.main-exit-boot-checkbox + label:hover {
+  background: white;
+}
+.main-exit-boot-checkbox + label:active {
+  background: rgba(255, 165, 0, 0.3);
+  box-shadow: 0px 0px 9px orangered;
+}
+.main-exit-boot-checkbox + label:last-child {
+  margin: auto 0;
+}
+.main-exit-boot-checkbox:checked + label {
+  background: rgba(135, 206, 250, 0.5) !important;
+}
+.main-exit-boot-checkbox:checked ~ .main-exit-boot-dialog {
+  display: flex;
+  max-height: 300px;
+}
+.main-exit-boot-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow: hidden;
+  max-height: 0;
+  transition: 0.3s;
+  padding: 8px;
+}
+.main-exit-boot-dialog-title {
+  flex-grow: 1;
+  width: 100%;
+  text-align: center;
+}
+.main-exit-boot-dialog-yes {
+  position: relative;
+  padding: 4px 8px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  min-width: 240px;
+  border: none;
+  outline: none;
+  margin: auto 0 0 0;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 9px #969696;
+  transition: 0.3s;
+  text-transform: uppercase;
+  cursor: pointer;
+  min-height: 32px;
+  max-height: 32px;
+  max-width: 30%;
+  min-width: 96px;
+  margin: 4px;
+  color: red;
+  font-weight: 900;
+}
+.main-exit-boot-dialog-yes:disabled {
+  background: #bbb!important;
+  cursor: not-allowed !important;
+}
+.main-exit-boot-dialog-yes:disabled > svg {
+  opacity: 0.2;
+}
+.main-exit-boot-dialog-yes > svg {
+  min-width: 26px;
+  max-width: 26px;
+  min-height: 26px;
+  max-height: 26px;
+  margin: 0 8px 0 0;
+}
+.main-exit-boot-dialog-yes > span {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-transform: none;
+  font-size: 14px;
+  font-weight: 800;
+  opacity: 1!important;
+  z-index: 9;
+}
+.main-exit-boot-dialog-yes:hover {
+  background: white;
+}
+.main-exit-boot-dialog-yes:active {
+  background: rgba(255, 165, 0, 0.3);
+  box-shadow: 0px 0px 9px orangered;
+}
+.main-exit-boot-dialog-yes:last-child {
+  margin: auto 0;
+}
+.main-exit-boot-dialog-cancel {
+  position: relative;
+  padding: 4px 8px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  min-width: 240px;
+  border: none;
+  outline: none;
+  margin: auto 0 0 0;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 9px #969696;
+  transition: 0.3s;
+  text-transform: uppercase;
+  cursor: pointer;
+  min-height: 32px;
+  max-height: 32px;
+  max-width: 30%;
+  min-width: 96px;
+  margin: 4px;
+}
+.main-exit-boot-dialog-cancel:disabled {
+  background: #bbb!important;
+  cursor: not-allowed !important;
+}
+.main-exit-boot-dialog-cancel:disabled > svg {
+  opacity: 0.2;
+}
+.main-exit-boot-dialog-cancel > svg {
+  min-width: 26px;
+  max-width: 26px;
+  min-height: 26px;
+  max-height: 26px;
+  margin: 0 8px 0 0;
+}
+.main-exit-boot-dialog-cancel > span {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-transform: none;
+  font-size: 14px;
+  font-weight: 800;
+  opacity: 1!important;
+  z-index: 9;
+}
+.main-exit-boot-dialog-cancel:hover {
+  background: white;
+}
+.main-exit-boot-dialog-cancel:active {
+  background: rgba(255, 165, 0, 0.3);
+  box-shadow: 0px 0px 9px orangered;
+}
+.main-exit-boot-dialog-cancel:last-child {
+  margin: auto 0;
+}
+.main-choose-firmware {
+  position: relative;
+  padding: 4px 8px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  min-width: 240px;
+  border: none;
+  outline: none;
+  margin: auto 0 0 0;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 9px #969696;
+  transition: 0.3s;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.main-choose-firmware:disabled {
+  background: #bbb!important;
+  cursor: not-allowed !important;
+}
+.main-choose-firmware:disabled > svg {
+  opacity: 0.2;
+}
+.main-choose-firmware > svg {
+  min-width: 26px;
+  max-width: 26px;
+  min-height: 26px;
+  max-height: 26px;
+  margin: 0 8px 0 0;
+}
+.main-choose-firmware > span {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-transform: none;
+  font-size: 14px;
+  font-weight: 800;
+  opacity: 1!important;
+  z-index: 9;
+}
+.main-choose-firmware:hover {
+  background: white;
+}
+.main-choose-firmware:active {
+  background: rgba(255, 165, 0, 0.3);
+  box-shadow: 0px 0px 9px orangered;
+}
+.main-choose-firmware:last-child {
+  margin: auto 0;
+}
+.main-choose-firmware-dialog {
+  display: none;
+}
+.main-burn {
+  position: relative;
+  padding: 4px 8px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  min-width: 240px;
+  border: none;
+  outline: none;
+  margin: auto 0 0 0;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 9px #969696;
+  transition: 0.3s;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.main-burn:disabled {
+  background: #bbb!important;
+  cursor: not-allowed !important;
+}
+.main-burn:disabled > svg {
+  opacity: 0.2;
+}
+.main-burn > svg {
+  min-width: 26px;
+  max-width: 26px;
+  min-height: 26px;
+  max-height: 26px;
+  margin: 0 8px 0 0;
+}
+.main-burn > span {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-transform: none;
+  font-size: 14px;
+  font-weight: 800;
+  opacity: 1!important;
+  z-index: 9;
+}
+.main-burn:hover {
+  background: white;
+}
+.main-burn:active {
+  background: rgba(255, 165, 0, 0.3);
+  box-shadow: 0px 0px 9px orangered;
+}
+.main-burn:last-child {
+  margin: auto 0;
+}
+.main-burn-progress-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  z-index: 8;
+  background: rgba(135, 206, 250, 0.4);
+}
+.footer {
+  margin: auto 20px 0 20px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+  padding: 4px 8px;
+  color: gray;
+  opacity: 0;
+  animation: appear 1s ease-in-out 1s;
+  animation-fill-mode: forwards;
+}
