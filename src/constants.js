@@ -13,7 +13,7 @@ export const AppConstants = {
       PING: 0x0006,
       FIRMWARE_UPDATE_DONE: 0x0007,
     },
-    WS_ENDPOINT: 'bootloader',
+    WS_ENDPOINT: 'bootloader/ws',
     HTTP_ENDPOINT: `http://${location.host}/bootloader`
   },
   ui: {
