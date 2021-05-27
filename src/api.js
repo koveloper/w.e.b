@@ -15,14 +15,22 @@ const SuccessHTTPStatusRange = {
 };
 
 export class Api extends WebSocketWrapper {
-  constructor() {
+  constructor({ wsConnectedCallback, updateStatusCallback } = {}) {
     super({ endpoint: AppConstants.api.WS_ENDPOINT });
     this._endpoint = AppConstants.api.HTTP_ENDPOINT;
     this.ping = this.ping.bind(this);
+    this._ping = this._ping.bind(this);
+    this._sendWsReadyForDownloadPacket = this._sendWsReadyForDownloadPacket.bind(this);
     this._handleWsBinaryData = this._handleWsBinaryData.bind(this);
     this._initialized = false;
     this._webSocketMode = false;
     this._autoPingTimerId = null;
+    this._firmwareArrayBuffer = null;
+    this._wsConnectedCallback = wsConnectedCallback;
+    this._updateStatusCallback = updateStatusCallback;
+    this._wsBurnTimer = null;
+    this._wsBurnDone = false;
+    this._wsBurned = 0;
   }
 
   init() {
@@ -36,10 +44,62 @@ export class Api extends WebSocketWrapper {
 
   _handleWsOpen() {
     this._webSocketMode = true;
+    if(this._wsConnectedCallback) {
+      this._wsConnectedCallback(true);
+    }
   }
 
   _handleWsClosed() {
     this._webSocketMode = false;
+    if(this._wsConnectedCallback) {
+      this._wsConnectedCallback(false);
+    }
+  }
+
+  _sendWsReadyForDownloadPacket() {
+    const data = this._firmwareArrayBuffer === null ?
+      [0, 0, 0, 0]
+      : [
+        this._firmwareArrayBuffer.byteLength & 255,
+        (this._firmwareArrayBuffer.byteLength >> 8) & 255,
+        (this._firmwareArrayBuffer.byteLength >> 16) & 255,
+        (this._firmwareArrayBuffer.byteLength >> 24) & 255,
+      ];
+    return this.sendArray(
+        this._createWsCommand(
+            AppConstants.api.packetTypes.READY_FOR_DOWNLOAD_RESPONSE,
+            data
+        )
+    );
+  }
+
+  _handleFirmwareSegmentRequest(packet) {
+    if(this._firmwareArrayBuffer === null) {
+      this._sendWsReadyForDownloadPacket();
+    }
+    if(packet.data.length < 6) {
+      return;
+    }
+    let offset = 0;
+    let firmwareOffset = packet.data[offset++]
+      | (packet.data[offset++] << 8)
+      | (packet.data[offset++] << 16)
+      | (packet.data[offset++] << 24);
+    let size = packet.data[offset++]
+      | (packet.data[offset++] << 8);
+    if(firmwareOffset < this._firmwareArrayBuffer) {
+      const portion = [];
+      while(firmwareOffset < this._firmwareArrayBuffer.byteLength && size--) {
+        portion.push(this._firmwareArrayBuffer.getUint8(firmwareOffset++));
+      }
+      this.sendArray(
+          this._createWsCommand(
+              AppConstants.api.packetTypes.FIRMWARE_FRAGMENT_RESPONSE,
+              portion
+          )
+      );
+      this._wsBurned = firmwareOffset;
+    }
   }
 
   _handleWsBinaryData(arrayBuffer) {
@@ -53,8 +113,13 @@ export class Api extends WebSocketWrapper {
         this.ping();
         break;
       case AppConstants.api.packetTypes.READY_FOR_DOWNLOAD_REQUEST:
+        this._sendWsReadyForDownloadPacket();
         break;
       case AppConstants.api.packetTypes.FIRMWARE_FRAGMENT_REQUEST:
+        this._handleFirmwareSegmentRequest(packet);
+        break;
+      case AppConstants.api.packetTypes.FIRMWARE_UPDATE_DONE:
+        this._wsBurnDone = true;
         break;
     }
   }
@@ -178,7 +243,11 @@ export class Api extends WebSocketWrapper {
     if(!isEnabled) {
       return;
     }
-    this._autoPingTimerId = setInterval(this.ping, intervalMs < 1000 ? 1000 : intervalMs);
+    this._autoPingTimerId = setInterval(this._ping, intervalMs < 1000 ? 1000 : intervalMs);
+  }
+
+  _ping() {
+    this.ping().then(() => {}).catch(() => {});
   }
   
   ping() {
@@ -212,7 +281,62 @@ export class Api extends WebSocketWrapper {
     });
   }
 
-  burn() {
+  _wsBurn() {
+    return new Promise((resolve, reject) => {
+      this._wsBurnTimer = setInterval(() => {
+        if(this._wsBurnDone) {
+          this._updateStatusCallback({
+            bytesOverall: this._firmwareArrayBuffer.byteLength,
+            bytesBurned: this._firmwareArrayBuffer.byteLength,
+            percent: 100,
+            finished: true
+          });
+          clearInterval(this._wsBurnTimer);
+          resolve();
+        } else {
+          if(this._updateStatusCallback) {
+            const burnStatus = {
+              bytesOverall: this._firmwareArrayBuffer.byteLength,
+              bytesBurned: this._wsBurned,
+              percent: Math.round(this._wsBurned * 100 / this._firmwareArrayBuffer.byteLength),
+              finished: false
+            };
+            console.log(burnStatus);
+            this._updateStatusCallback(burnStatus);
+          }
+        }
+        console.log('ws burn cycle operation');
+        if(!this._sendWsReadyForDownloadPacket()) {
+          reject();          
+        }
+      }, 100);
+    });
+  }
 
+  isBurning() {
+    return this._firmwareArrayBuffer !== null;
+  }
+
+  burn(firmwareArrayBuffer) {
+    console.log('burn');
+    console.log(firmwareArrayBuffer);
+    if(!firmwareArrayBuffer || this._firmwareArrayBuffer) {
+      return Promise.reject('burning already started');
+    }
+    this._firmwareArrayBuffer = firmwareArrayBuffer;
+    if(this._webSocketMode) {
+      return this._wsBurn();
+    }
+    const headers = new Headers();
+    headers.set('Content-Type', 'application/octet-stream');
+    return this._makeRequestWithoutDataResponse({
+      url: 'burn',
+      method: Method.POST,
+      headers,
+      body: firmwareArrayBuffer
+    }).catch(err => {
+      this._firmwareArrayBuffer = null;
+      throw err;
+    });
   }
 }

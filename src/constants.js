@@ -11,6 +11,7 @@ export const AppConstants = {
       FIRMWARE_FRAGMENT_REQUEST: 0x0004,
       FIRMWARE_FRAGMENT_RESPONSE: 0x0005,
       PING: 0x0006,
+      FIRMWARE_UPDATE_DONE: 0x0007,
     },
     WS_ENDPOINT: 'bootloader',
     HTTP_ENDPOINT: `http://${location.host}/bootloader`

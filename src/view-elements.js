@@ -1,6 +1,8 @@
 export const ViewElements = {
   error: document.querySelector('.error'),
   errorContent: document.querySelector('.error-content'),
+  message: document.querySelector('.message'),
+  messageContent: document.querySelector('.message-content'),
   appWrapper: document.querySelector('.app-wrapper'),
   webSocketIndicator: document.querySelector('.header-web-socket-inidicator'),
   exitBootloaderCheckbox: document.querySelector('#exit-boot'),
