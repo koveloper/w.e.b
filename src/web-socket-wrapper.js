@@ -9,6 +9,7 @@ export default class WebSocketWrapper {
     this._handleWsCloseOrError = this._handleWsCloseOrError.bind(this);
     this._textMessageReceivedCallback = null;
     this._binaryDataReceivedCallback = null;
+    this._terminated = false;
   }
 
   setTextMessageReceivedCallback(textMessageReceivedCallback) {
@@ -46,6 +47,9 @@ export default class WebSocketWrapper {
     if (this._wsIptr && this._wsIptr.readyState !== WebSocket.CLOSED) {
       return;
     }
+    if(this._terminated) {
+      return;
+    }
     try {
       this._wsIptr = new WebSocket(`ws://${this._host}${this._endpoint}`);
       this._wsIptr.binaryType = 'arraybuffer';
@@ -68,6 +72,7 @@ export default class WebSocketWrapper {
     this._wsIptr.onclose = null;
     this._wsIptr.close();
     this._wsIptr = null;
+    this._terminated = true;
   }
 
   sendArray(data = []) {
