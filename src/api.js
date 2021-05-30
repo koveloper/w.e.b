@@ -182,11 +182,42 @@ export class Api extends WebSocketWrapper {
     method = Method.GET,
     body = null,
     headers = new Headers(),
+    commitProgress = false
   }) {
-    return fetch(
-        `${this._endpoint}/${url}`,
-        { method, body, headers },
-    ).then(Api.checkStatus);
+    return new Promise((resolve, reject) => {
+      let xhr = new XMLHttpRequest();
+      xhr.open(method, `${this._endpoint}/${url}`);
+      headers.keys.forEach((key) => {
+        xhr.setRequestHeader(key, headers.get(key));
+      });
+      xhr.send(body);
+      xhr.onload = () => {
+        if(commitProgress && this._updateStatusCallback) {
+          this._updateStatusCallback({
+            bytesOverall: this._firmwareArrayBuffer.byteLength,
+            bytesBurned: this._firmwareArrayBuffer.byteLength,
+            percent: 100,
+            finished: true
+          });
+        }
+        resolve(xhr);
+      };
+      xhr.onerror = () => {
+        reject('Error while performing XMLHttpRequest');
+      };
+      if(commitProgress && this._updateStatusCallback) {
+        xhr.upload.onprogress = function(evt) {
+          const burnStatus = {
+            bytesOverall: evt.total,
+            bytesBurned: evt.loaded,
+            percent: Math.round(evt.loaded * 100 / evt.total),
+            finished: false
+          };
+          console.log(burnStatus);
+          this._updateStatusCallback(burnStatus);
+        };
+      }
+    }).then(Api.checkStatus);
   }
 
   _makeRequestWithDataResponse({
@@ -207,19 +238,20 @@ export class Api extends WebSocketWrapper {
     method = Method.GET,
     body = null,
     headers = new Headers(),
+    commitProgress = false
   }) {
-    return this._request({ url, method, body, headers })
+    return this._request({ url, method, body, headers, commitProgress })
       .catch(Api.catchError);
   }
 
-  static checkStatus(response) {
+  static checkStatus(xhr) {
     if (
-      response.status < SuccessHTTPStatusRange.MIN ||
-      response.status > SuccessHTTPStatusRange.MAX
+      xhr.status < SuccessHTTPStatusRange.MIN ||
+      xhr.status > SuccessHTTPStatusRange.MAX
     ) {
-      throw new Error(`${response.status}: ${response.statusText}`);
+      throw new Error(`${xhr.status}: ${xhr.statusText}`);
     }
-    return response;
+    return xhr.response;
   }
 
   static toJSON(response) {
@@ -251,6 +283,9 @@ export class Api extends WebSocketWrapper {
   }
   
   ping() {
+    if(this._firmwareArrayBuffer) {
+      return Promise.reject();
+    }
     if(this._webSocketMode) {
       return new Promise((resolve, reject) => {
         if(this.sendArray(this._createWsCommand(AppConstants.api.packetTypes.PING))) {
@@ -262,6 +297,9 @@ export class Api extends WebSocketWrapper {
     return this._makeRequestWithoutDataResponse({
       url: 'ping',
       method: Method.GET,      
+    }).then((response) => {
+      this.close();
+      return Promise.resolve(response);
     });
   }  
 
@@ -333,7 +371,8 @@ export class Api extends WebSocketWrapper {
       url: 'burn',
       method: Method.POST,
       headers,
-      body: firmwareArrayBuffer
+      body: firmwareArrayBuffer,
+      commitProgress: true
     }).catch(err => {
       this._firmwareArrayBuffer = null;
       throw err;
