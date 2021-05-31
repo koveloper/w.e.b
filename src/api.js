@@ -187,9 +187,11 @@ export class Api extends WebSocketWrapper {
     return new Promise((resolve, reject) => {
       let xhr = new XMLHttpRequest();
       xhr.open(method, `${this._endpoint}/${url}`);
-      headers.keys.forEach((key) => {
-        xhr.setRequestHeader(key, headers.get(key));
-      });
+      const it = headers.entries();
+      let next = null;
+      while((next = it.next()).done === false) {
+        xhr.setRequestHeader(next.value[0], next.value[1]);
+      }
       xhr.send(body);
       xhr.onload = () => {
         if(commitProgress && this._updateStatusCallback) {
