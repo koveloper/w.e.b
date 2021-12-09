@@ -1,0 +1,76 @@
+#burn-anime {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    & > div {
+        .wait-anime();
+        @step: 0.4s;
+        &:nth-child(1) {
+            animation-delay: @step*5;
+        } 
+        &:nth-child(2) {
+            animation-delay: @step*4;
+        } 
+        &:nth-child(3) {
+            animation-delay: @step*3;
+        } 
+        &:nth-child(4) {
+            animation-delay: @step*2;
+        } 
+        &:nth-child(5) {
+            animation-delay: @step;
+        }
+        transform: translateX(-400px);
+        @size: 32px;
+        border-radius: 50%;
+        width: @size;
+        height: @size;
+        margin: 0 10px 0 0;
+        opacity: 0;
+        background: burlywood;
+        box-shadow: 0 0 8px burlywood;
+        transition: 0.2s;
+    }
+}
+
+.wait-anime() {
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-name: wait;
+    animation-fill-mode: forwards;
+}
+
+@keyframes wait {
+    from {
+        transform: translateX(-400px) scale(0.01);
+        opacity: 0;        
+    }
+    10% {
+        opacity: 0;
+    }
+    30% {
+        transform: translateX(0) scale(0.5);
+        opacity: 1;
+    }
+    50% {
+        transform: translateX(0) scale(0.5);
+    }
+    60% {
+        transform: translateX(0) scale(0.5);
+    }
+    65% {
+        transform: translateX(0) scale(0.8);
+    }
+    70% {
+        transform: translateX(0) scale(0.5);
+        opacity: 1;
+    }
+    80% {
+        opacity: 0;
+    }
+    to {
+        transform: translateX(400px) scale(0.01);
+        opacity: 0;
+    }
+}

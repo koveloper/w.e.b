@@ -10,8 +10,9 @@ const wrapModalMessage = function(modalElement) {
   return {
     show: (text) => {
       _modalElement.querySelector('div').textContent = text;
-      _modalElement.style.maxHeight = '100px';
+      _modalElement.style.maxHeight = '100%';
       _modalElement.style.opacity = 1;
+      _modalElement.querySelector('div').style.transform = 'translateX(0)';
       if(_timerId) {
         clearTimeout(_timerId);
         _timerId = null;
@@ -20,7 +21,10 @@ const wrapModalMessage = function(modalElement) {
         clearTimeout(_timerId);
         _modalElement.style.maxHeight = 0;
         _modalElement.style.opacity = 0;
+        _modalElement.querySelector('div').style.transform = 'translateX(-100vw)';
         _timerId = null;
+        ViewElements.burnButton.disabled = _firmwareArrayBuf === null;
+        document.querySelector('#burn-anime').style.display = 'none';    
       }, AppConstants.ui.ERROR_SHOW_INTERVAL);    
     }
   };
@@ -79,6 +83,8 @@ const initView = () => {
     if(ViewElements.burnButton.disabled || api.isBurning()) {
       return;
     }
+    ViewElements.burnButton.disabled = true;
+    document.querySelector('#burn-anime').style.display = 'flex';
     api.burn(_firmwareArrayBuf)
     .then(() => {
       messageModal.show('BURN DONE!');

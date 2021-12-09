@@ -17,17 +17,22 @@
         justify-content: center;
         min-height: 56px;
         min-width: 240px;
-        border: none;
         outline: none;
         margin: auto 0 0 0;
         box-sizing: border-box;
-        box-shadow: 0px 0px 9px rgba(150, 150, 150, 1);
-        transition: 0.3s;
+        background: #111;
+        color: lightskyblue;
+        border: 1px solid fade(goldenrod, 40%);
+        border-radius: 16px;
+        transition: 0.2s;
         text-transform: uppercase;
         cursor: pointer;
         &:disabled {
-            background: #bbb!important;
+            background: #444!important;
             cursor: not-allowed!important;
+            border: 1px solid transparent!important;
+            box-shadow: 0 0 8px fade(orangered, 40%);
+            color: #666!important;
             & > svg {
                 opacity: 0.2;
             }
@@ -51,14 +56,12 @@
             z-index: 9;
         }
         &:hover {
-            background: white;
+            background: #000;
+            border: 1px solid goldenrod;
         }
         &:active {
             background: fade(orange, 30%);
             box-shadow: 0px 0px 9px orangered;
-        }
-        &:last-child {
-            margin: auto 0;
         }
     }
 
@@ -67,13 +70,14 @@
         & + label {
             .button();
         }
-        &:checked + label {
-            background: fade(lightskyblue, 50%)!important;
-        }
 
         &:checked ~ .main-exit-boot-dialog {
             display: flex;
             max-height: 300px;
+            & > button {
+                transform: translateX(0);
+                opacity: 1;
+            }
         } 
     }
     &-exit-boot-dialog {
@@ -90,25 +94,34 @@
             flex-grow: 1;
             width: 100%;
             text-align: center;
+            color: goldenrod;
         }
 
         &-yes {
             .button();
-            min-height: 32px;
-            max-height: 32px;
+            box-sizing: border-box;
+            min-height: 40px;
+            max-height: 40px;
             max-width: 30%;
             min-width: 96px;    
             margin: 4px;
             color: red;
             font-weight: 900;
+            transition: 0.4s;
+            transform: translateX(-400px);
+            opacity: 0;
         } 
         &-cancel {
             .button();
-            min-height: 32px;
-            max-height: 32px;
+            box-sizing: border-box;
+            min-height: 40px;
+            max-height: 40px;
             max-width: 30%;
             min-width: 96px;    
             margin: 4px;
+            transition: 0.4s;
+            transform: translateX(400px);
+            opacity: 0;
         } 
     }
     &-choose-firmware {
@@ -119,6 +132,7 @@
     }
     &-burn {
         .button();
+        margin: auto 0;
         &-progress-bar {
             position: absolute;
             left: 0;

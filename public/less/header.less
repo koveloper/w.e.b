@@ -6,29 +6,30 @@
     left: 100%;
     margin: 0 20px;
     box-sizing: border-box;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid fade(lightskyblue, 40%);
     .appear-from-right-animation-single(0.8s, 0.8s);
 
     &-img {
         max-width: 48px;
         max-height: 48px;
         .rotate-animation-single(0.8s, 1s);
-        fill: lightblue;
+        fill: goldenrod;
         margin: 0 8px;
     }
 
     &-title {
-        text-shadow: 0px 0px 9px rgba(150, 150, 150, 1);
+        // text-shadow: 0px 0px 9px rgba(150, 150, 150, 1);
         text-align: center;
         margin: 0;
         padding: 0;
         display: flex;
         flex-direction: column;
+        color: lightskyblue;
 
         &>span {
             font-size: 12px;
             font-weight: 100;
-            color: fade(black, 50%);
+            color: fade(gold, 50%);
         }
     }
     &-web-socket-inidicator {

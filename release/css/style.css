@@ -47,6 +47,7 @@ body {
   max-height: -webkit-fill-available;
   height: -webkit-fill-available;
   padding: 0 20px;
+  background: #333;
 }
 .app-wrapper {
   max-width: 800px;
@@ -61,22 +62,23 @@ body {
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
-  box-shadow: 0px 0px 8px 0px rgba(50, 50, 50, 0.75);
+  box-shadow: 0px 0px 8px 0px black;
   flex-grow: 1;
   opacity: 1;
-  background: #eee;
+  background: #222;
+  border-radius: 16px;
   transition: 0.8s;
   overflow: hidden;
 }
 .error {
   position: absolute;
-  top: 20px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  width: 50%;
-  height: 100px;
+  transform: translateX(-50%) translateY(-50%);
+  background: rgba(255, 255, 255, 0.3);
+  width: 100%;
+  height: 100%;
   z-index: 100;
-  background: rgba(255, 69, 0, 0.98);
   border-radius: 3px;
   transition: 0.3s;
   padding: 0;
@@ -87,11 +89,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(9px);
 }
 .error-content {
-  width: 100%;
-  height: 100%;
-  padding: 20px;
+  background: rgba(255, 69, 0, 0.7);
+  transition: 0.4s;
+  transform: translateX(-100vw);
+  box-shadow: 0 0 8px #ff4500;
+  padding: 40px 80px;
+  border-radius: 16px;
   color: white;
   text-transform: uppercase;
   font-weight: 600;
@@ -101,13 +107,13 @@ body {
 }
 .message {
   position: absolute;
-  top: 20px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  width: 50%;
-  height: 100px;
+  transform: translateX(-50%) translateY(-50%);
+  background: rgba(255, 255, 255, 0.3);
+  width: 100%;
+  height: 100%;
   z-index: 100;
-  background: rgba(0, 128, 0, 0.98);
   border-radius: 3px;
   transition: 0.3s;
   padding: 0;
@@ -118,11 +124,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(9px);
 }
 .message-content {
-  width: 100%;
-  height: 100%;
-  padding: 20px;
+  background: rgba(0, 128, 0, 0.7);
+  transition: 0.4s;
+  transform: translateX(-100vw);
+  box-shadow: 0 0 8px #008000;
+  padding: 40px 80px;
+  border-radius: 16px;
   color: white;
   text-transform: uppercase;
   font-weight: 600;
@@ -140,7 +150,7 @@ body {
   left: 100%;
   margin: 0 20px;
   box-sizing: border-box;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid rgba(135, 206, 250, 0.4);
   animation: appear-from-right 0.8s ease-in-out 0.8s;
   animation-fill-mode: forwards;
 }
@@ -149,21 +159,21 @@ body {
   max-height: 48px;
   animation: rotation 0.8s ease-in-out 1s;
   animation-fill-mode: forwards;
-  fill: lightblue;
+  fill: goldenrod;
   margin: 0 8px;
 }
 .header-title {
-  text-shadow: 0px 0px 9px #969696;
   text-align: center;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
+  color: lightskyblue;
 }
 .header-title > span {
   font-size: 12px;
   font-weight: 100;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 215, 0, 0.5);
 }
 .header-web-socket-inidicator {
   width: 64px;
@@ -201,18 +211,23 @@ body {
   justify-content: center;
   min-height: 56px;
   min-width: 240px;
-  border: none;
   outline: none;
   margin: auto 0 0 0;
   box-sizing: border-box;
-  box-shadow: 0px 0px 9px #969696;
-  transition: 0.3s;
+  background: #111;
+  color: lightskyblue;
+  border: 1px solid rgba(218, 165, 32, 0.4);
+  border-radius: 16px;
+  transition: 0.2s;
   text-transform: uppercase;
   cursor: pointer;
 }
 .main-exit-boot-checkbox + label:disabled {
-  background: #bbb!important;
+  background: #444!important;
   cursor: not-allowed !important;
+  border: 1px solid transparent!important;
+  box-shadow: 0 0 8px rgba(255, 69, 0, 0.4);
+  color: #666!important;
 }
 .main-exit-boot-checkbox + label:disabled > svg {
   opacity: 0.2;
@@ -236,21 +251,20 @@ body {
   z-index: 9;
 }
 .main-exit-boot-checkbox + label:hover {
-  background: white;
+  background: #000;
+  border: 1px solid goldenrod;
 }
 .main-exit-boot-checkbox + label:active {
   background: rgba(255, 165, 0, 0.3);
   box-shadow: 0px 0px 9px orangered;
 }
-.main-exit-boot-checkbox + label:last-child {
-  margin: auto 0;
-}
-.main-exit-boot-checkbox:checked + label {
-  background: rgba(135, 206, 250, 0.5) !important;
-}
 .main-exit-boot-checkbox:checked ~ .main-exit-boot-dialog {
   display: flex;
   max-height: 300px;
+}
+.main-exit-boot-checkbox:checked ~ .main-exit-boot-dialog > button {
+  transform: translateX(0);
+  opacity: 1;
 }
 .main-exit-boot-dialog {
   display: flex;
@@ -266,6 +280,7 @@ body {
   flex-grow: 1;
   width: 100%;
   text-align: center;
+  color: goldenrod;
 }
 .main-exit-boot-dialog-yes {
   position: relative;
@@ -276,25 +291,33 @@ body {
   justify-content: center;
   min-height: 56px;
   min-width: 240px;
-  border: none;
   outline: none;
   margin: auto 0 0 0;
-  box-sizing: border-box;
-  box-shadow: 0px 0px 9px #969696;
-  transition: 0.3s;
+  background: #111;
+  color: lightskyblue;
+  border: 1px solid rgba(218, 165, 32, 0.4);
+  border-radius: 16px;
+  transition: 0.2s;
   text-transform: uppercase;
   cursor: pointer;
-  min-height: 32px;
-  max-height: 32px;
+  box-sizing: border-box;
+  min-height: 40px;
+  max-height: 40px;
   max-width: 30%;
   min-width: 96px;
   margin: 4px;
   color: red;
   font-weight: 900;
+  transition: 0.4s;
+  transform: translateX(-400px);
+  opacity: 0;
 }
 .main-exit-boot-dialog-yes:disabled {
-  background: #bbb!important;
+  background: #444!important;
   cursor: not-allowed !important;
+  border: 1px solid transparent!important;
+  box-shadow: 0 0 8px rgba(255, 69, 0, 0.4);
+  color: #666!important;
 }
 .main-exit-boot-dialog-yes:disabled > svg {
   opacity: 0.2;
@@ -318,14 +341,12 @@ body {
   z-index: 9;
 }
 .main-exit-boot-dialog-yes:hover {
-  background: white;
+  background: #000;
+  border: 1px solid goldenrod;
 }
 .main-exit-boot-dialog-yes:active {
   background: rgba(255, 165, 0, 0.3);
   box-shadow: 0px 0px 9px orangered;
-}
-.main-exit-boot-dialog-yes:last-child {
-  margin: auto 0;
 }
 .main-exit-boot-dialog-cancel {
   position: relative;
@@ -336,23 +357,31 @@ body {
   justify-content: center;
   min-height: 56px;
   min-width: 240px;
-  border: none;
   outline: none;
   margin: auto 0 0 0;
-  box-sizing: border-box;
-  box-shadow: 0px 0px 9px #969696;
-  transition: 0.3s;
+  background: #111;
+  color: lightskyblue;
+  border: 1px solid rgba(218, 165, 32, 0.4);
+  border-radius: 16px;
+  transition: 0.2s;
   text-transform: uppercase;
   cursor: pointer;
-  min-height: 32px;
-  max-height: 32px;
+  box-sizing: border-box;
+  min-height: 40px;
+  max-height: 40px;
   max-width: 30%;
   min-width: 96px;
   margin: 4px;
+  transition: 0.4s;
+  transform: translateX(400px);
+  opacity: 0;
 }
 .main-exit-boot-dialog-cancel:disabled {
-  background: #bbb!important;
+  background: #444!important;
   cursor: not-allowed !important;
+  border: 1px solid transparent!important;
+  box-shadow: 0 0 8px rgba(255, 69, 0, 0.4);
+  color: #666!important;
 }
 .main-exit-boot-dialog-cancel:disabled > svg {
   opacity: 0.2;
@@ -376,14 +405,12 @@ body {
   z-index: 9;
 }
 .main-exit-boot-dialog-cancel:hover {
-  background: white;
+  background: #000;
+  border: 1px solid goldenrod;
 }
 .main-exit-boot-dialog-cancel:active {
   background: rgba(255, 165, 0, 0.3);
   box-shadow: 0px 0px 9px orangered;
-}
-.main-exit-boot-dialog-cancel:last-child {
-  margin: auto 0;
 }
 .main-choose-firmware {
   position: relative;
@@ -394,18 +421,23 @@ body {
   justify-content: center;
   min-height: 56px;
   min-width: 240px;
-  border: none;
   outline: none;
   margin: auto 0 0 0;
   box-sizing: border-box;
-  box-shadow: 0px 0px 9px #969696;
-  transition: 0.3s;
+  background: #111;
+  color: lightskyblue;
+  border: 1px solid rgba(218, 165, 32, 0.4);
+  border-radius: 16px;
+  transition: 0.2s;
   text-transform: uppercase;
   cursor: pointer;
 }
 .main-choose-firmware:disabled {
-  background: #bbb!important;
+  background: #444!important;
   cursor: not-allowed !important;
+  border: 1px solid transparent!important;
+  box-shadow: 0 0 8px rgba(255, 69, 0, 0.4);
+  color: #666!important;
 }
 .main-choose-firmware:disabled > svg {
   opacity: 0.2;
@@ -429,14 +461,12 @@ body {
   z-index: 9;
 }
 .main-choose-firmware:hover {
-  background: white;
+  background: #000;
+  border: 1px solid goldenrod;
 }
 .main-choose-firmware:active {
   background: rgba(255, 165, 0, 0.3);
   box-shadow: 0px 0px 9px orangered;
-}
-.main-choose-firmware:last-child {
-  margin: auto 0;
 }
 .main-choose-firmware-dialog {
   display: none;
@@ -450,18 +480,24 @@ body {
   justify-content: center;
   min-height: 56px;
   min-width: 240px;
-  border: none;
   outline: none;
   margin: auto 0 0 0;
   box-sizing: border-box;
-  box-shadow: 0px 0px 9px #969696;
-  transition: 0.3s;
+  background: #111;
+  color: lightskyblue;
+  border: 1px solid rgba(218, 165, 32, 0.4);
+  border-radius: 16px;
+  transition: 0.2s;
   text-transform: uppercase;
   cursor: pointer;
+  margin: auto 0;
 }
 .main-burn:disabled {
-  background: #bbb!important;
+  background: #444!important;
   cursor: not-allowed !important;
+  border: 1px solid transparent!important;
+  box-shadow: 0 0 8px rgba(255, 69, 0, 0.4);
+  color: #666!important;
 }
 .main-burn:disabled > svg {
   opacity: 0.2;
@@ -485,14 +521,12 @@ body {
   z-index: 9;
 }
 .main-burn:hover {
-  background: white;
+  background: #000;
+  border: 1px solid goldenrod;
 }
 .main-burn:active {
   background: rgba(255, 165, 0, 0.3);
   box-shadow: 0px 0px 9px orangered;
-}
-.main-burn:last-child {
-  margin: auto 0;
 }
 .main-burn-progress-bar {
   position: absolute;
@@ -506,10 +540,79 @@ body {
 .footer {
   margin: auto 20px 0 20px;
   text-align: center;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid rgba(135, 206, 250, 0.4);
   padding: 4px 8px;
-  color: gray;
+  color: rgba(135, 206, 250, 0.4);
   opacity: 0;
   animation: appear 1s ease-in-out 1s;
   animation-fill-mode: forwards;
+}
+#burn-anime {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+#burn-anime > div {
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-name: wait;
+  animation-fill-mode: forwards;
+  transform: translateX(-400px);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  margin: 0 10px 0 0;
+  opacity: 0;
+  background: burlywood;
+  box-shadow: 0 0 8px burlywood;
+  transition: 0.2s;
+}
+#burn-anime > div:nth-child(1) {
+  animation-delay: 2s;
+}
+#burn-anime > div:nth-child(2) {
+  animation-delay: 1.6s;
+}
+#burn-anime > div:nth-child(3) {
+  animation-delay: 1.2s;
+}
+#burn-anime > div:nth-child(4) {
+  animation-delay: 0.8s;
+}
+#burn-anime > div:nth-child(5) {
+  animation-delay: 0.4s;
+}
+@keyframes wait {
+  from {
+    transform: translateX(-400px) scale(0.01);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0;
+  }
+  30% {
+    transform: translateX(0) scale(0.5);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(0) scale(0.5);
+  }
+  60% {
+    transform: translateX(0) scale(0.5);
+  }
+  65% {
+    transform: translateX(0) scale(0.8);
+  }
+  70% {
+    transform: translateX(0) scale(0.5);
+    opacity: 1;
+  }
+  80% {
+    opacity: 0;
+  }
+  to {
+    transform: translateX(400px) scale(0.01);
+    opacity: 0;
+  }
 }
