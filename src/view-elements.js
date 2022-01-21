@@ -14,4 +14,10 @@ export const ViewElements = {
   burnButton: document.querySelector('#burn'),
   burnStatusSpan: document.querySelector('.main-burn-status'),
   burnStatusProgressBar: document.querySelector('.main-burn-progress-bar'),
+  headerTitle: document.querySelector('.header-title'),
+  hiddenFuncs: document.querySelector('.hidden-funcs'),
+  hiddenFuncsClose: document.querySelector('#hidden-funcs-close'),
+  clearParamsPassword: document.querySelector('#clear-params-password'),
+  clearParamsButton: document.querySelector('#clear-params-confirm'),
+
 };

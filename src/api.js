@@ -380,4 +380,21 @@ export class Api extends WebSocketWrapper {
       throw err;
     });
   }
+
+  clearParams(passwordBytes) {
+    if(this._webSocketMode) {
+      return null;
+    }
+    const headers = new Headers();
+    headers.set('Content-Type', 'application/octet-stream');
+    return this._makeRequestWithoutDataResponse({
+      url: 'erase-params',
+      method: Method.POST,
+      headers,
+      body: passwordBytes
+    }).then((response) => {
+      this.close();
+      return Promise.resolve(response);
+    });
+  }
 }

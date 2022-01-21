@@ -31,6 +31,12 @@
             font-weight: 100;
             color: fade(gold, 50%);
         }
+        &::after {
+            content: attr(version);
+            font-weight: 200;
+            font-size: 10px;
+            color: fade(white, 50%);
+        }
     }
     &-web-socket-inidicator {
         width: 64px;
