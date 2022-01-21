@@ -1,0 +1,111 @@
+.hidden-funcs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    flex-direction: column;
+    gap: 16px;
+    left: 0;
+    top: 0;
+    z-index: 80;
+    width: 100%;
+    height: 100%;
+    background: fade(#333, 40%);
+    backdrop-filter: blur(8px);
+    transition: 0.4s;
+    padding: 20px;
+    box-sizing: border-box;
+    transform: translateX(-100%);
+    & > {
+        #hidden-funcs-close {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            cursor: pointer;
+            background: fade(orangered, 50%);
+            color: white;
+            font-weight: 200;
+            outline: none;
+            padding: 8px 12px;
+            line-height: 100%;
+            box-sizing: border-box;
+            border-radius: 8px;
+            transition: 0.2s;
+            font-size: 20px;
+            border: 1px solid transparent;
+            &:hover {
+                border: 1px solid fade(white, 80%);
+            }
+        }
+        #clear-params-checkbox {
+            display: none;
+            &:checked ~ .clear-params-container {
+                max-height: 300px;
+                opacity: 1;
+            }
+        }
+        #clear-params {
+            border: none;
+            outline: none;
+            background: #ccc;
+            color: black;
+            padding: 8px 32px;
+            border-radius: 16px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            max-width: 300px;
+            box-sizing: border-box;
+            text-align: center;
+            &:hover {
+                box-shadow: 0 0 16px fade(white, 50%);
+            }
+            &:active {
+                opacity: 0.4;
+            }
+        }
+        .clear-params-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            max-width: 300px;
+            box-sizing: border-box;
+            max-height: 0;
+            overflow: hidden;
+            transition: 0.5s;
+            opacity: 0;
+        }
+        #clear-params-password {
+            text-align: center;
+            outline: none;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 16px;
+            transition: 0.2s;
+            width: 100%;
+            max-width: 300px;
+            box-sizing: border-box;            
+        }
+        #clear-params-confirm {
+            background: fade(orangered, 80%);
+            color: white;
+            outline: none;
+            border: none;
+            padding: 8px 32px;
+            border-radius: 16px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            max-width: 300px;
+            &:hover {
+                box-shadow: 0 0 16px fade(white, 50%);
+            }
+            &:active {
+                opacity: 0.4;
+            }
+        }
+    }
+}

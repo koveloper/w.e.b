@@ -11,6 +11,8 @@
 		"*main.less",
 		"*footer.less", 
 		"*utils.less", 
+		"*hidden-funcs.less", 
+		"*burn-anime.less", 
 		"*.css",
 		"*.js"
 	]

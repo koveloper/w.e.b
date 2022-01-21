@@ -47,6 +47,36 @@ const api = new Api({
   }
 });
 
+const initHiddenFuncs = () => {
+  let moment = 0;
+  let clicks = 0;
+  ViewElements.headerTitle.addEventListener('click', () => {
+    if((moment - Date.now()) < 100) {
+      clicks++;
+      if(clicks >= 5) {
+        ViewElements.hiddenFuncs.style.transform = 'translateX(0)';
+      }
+    } else {
+      clicks = 0;      
+    }
+    moment = Date.now();
+  });
+  ViewElements.hiddenFuncsClose.addEventListener('click', () => {
+    ViewElements.hiddenFuncs.style.transform = 'translateX(-100%)';
+    clicks = 0;
+  });
+  ViewElements.clearParamsButton.addEventListener('click', () => {
+    api.clearParams(new TextEncoder().encode(ViewElements.clearParamsPassword.value))
+    .then(() => {
+      messageModal.show('Params erased!');
+    })
+    .catch((err) => {
+      errorModal.show(err);
+    });    
+  });
+
+};
+
 const initView = () => {
   ViewElements.appWrapper.classList.remove('vertical-hided');
   ViewElements.exitBootloaderCancelButton.addEventListener('click', () => {
@@ -93,6 +123,8 @@ const initView = () => {
       errorModal.show(err);
     });
   });
+  ViewElements.headerTitle.setAttribute('version', AppConstants.VERSION);
+  initHiddenFuncs();
 };
 
 initView();
