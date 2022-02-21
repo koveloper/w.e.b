@@ -14,10 +14,10 @@ export const AppConstants = {
       FIRMWARE_UPDATE_DONE: 0x0007,
     },
     WS_ENDPOINT: 'bootloader/ws',
-    HTTP_ENDPOINT: `http://${location.host}/bootloader`
+    HTTP_ENDPOINT: '/bootloader'
   },
   ui: {
     ERROR_SHOW_INTERVAL: 5000
   },
-  VERSION: '1.0.2'
+  VERSION: '1.0.3'
 };
