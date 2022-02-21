@@ -95,6 +95,7 @@ const initView = () => {
     _firmwareArrayBuf = null;
     ViewElements.burnButton.disabled = true;
     ViewElements.chosenFilenameSpan.textContent = '';
+    ViewElements.chooseFirmwareDialogButton.value = '';
     ViewElements.chooseFirmwareDialogButton.click();
   });
   ViewElements.chooseFirmwareDialogButton.addEventListener('change', (e) => {
