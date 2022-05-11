@@ -38,8 +38,10 @@ export class Api extends WebSocketWrapper {
       return;
     }
     this._initialized = true;
-    this.setBinaryDataReceivedCallback(this._handleWsBinaryData);
-    this.open();
+    if(AppConstants.logic.USE_WEBSOCKET) {
+      this.setBinaryDataReceivedCallback(this._handleWsBinaryData);
+      this.open();  
+    }
   }
 
   _handleWsOpen() {
@@ -100,6 +102,13 @@ export class Api extends WebSocketWrapper {
       );
       this._wsBurned = firmwareOffset;
     }
+  }
+
+  sendArray(data = []) {
+    if(!AppConstants.logic.USE_WEBSOCKET) {
+      return;
+    }
+    super.sendArray(data);
   }
 
   _handleWsBinaryData(arrayBuffer) {
@@ -215,7 +224,6 @@ export class Api extends WebSocketWrapper {
             percent: Math.round(evt.loaded * 100 / evt.total),
             finished: false
           };
-          console.log(burnStatus);
           this._updateStatusCallback(burnStatus);
         };
       }
@@ -341,11 +349,9 @@ export class Api extends WebSocketWrapper {
               percent: Math.round(this._wsBurned * 100 / this._firmwareArrayBuffer.byteLength),
               finished: false
             };
-            console.log(burnStatus);
             this._updateStatusCallback(burnStatus);
           }
         }
-        console.log('ws burn cycle operation');
         if(!this._sendWsReadyForDownloadPacket()) {
           reject();          
         }
@@ -358,8 +364,6 @@ export class Api extends WebSocketWrapper {
   }
 
   burn(firmwareArrayBuffer) {
-    console.log('burn');
-    console.log(firmwareArrayBuffer);
     if(!firmwareArrayBuffer || this._firmwareArrayBuffer) {
       return Promise.reject('burning already started');
     }

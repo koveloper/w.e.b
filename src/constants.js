@@ -19,5 +19,8 @@ export const AppConstants = {
   ui: {
     ERROR_SHOW_INTERVAL: 5000
   },
-  VERSION: '1.0.3'
+  logic: {
+    USE_WEBSOCKET: false
+  },
+  VERSION: '1.0.4'
 };
